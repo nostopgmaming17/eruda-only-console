@@ -221,7 +221,7 @@ export default class DevTools extends Emitter {
         })
         .range(cfg, 'displaySize', 'Display Size', {
           min: 20,
-          max: 70,
+          max: 100,
           step: 1,
         })
     }
