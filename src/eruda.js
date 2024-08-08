@@ -1,4 +1,3 @@
-import EntryBtn from './EntryBtn/EntryBtn'
 import DevTools from './DevTools/DevTools'
 import Tool from './DevTools/Tool'
 import Console from './Console/Console'
@@ -10,7 +9,6 @@ import { isDarkTheme } from './lib/themes'
 import themes from './lib/themes'
 import isFn from 'licia/isFn'
 import isNum from 'licia/isNum'
-import isObj from 'licia/isObj'
 import each from 'licia/each'
 import isMobile from 'licia/isMobile'
 import viewportScale from 'licia/viewportScale'
@@ -43,7 +41,6 @@ export default {
     this._initContainer(container, useShadowDom)
     this._initStyle()
     this._initDevTools(defaults, inline)
-    this._initEntryBtn()
     this._initSettings()
     this._initTools(tool)
     this._registerListener()
@@ -52,7 +49,6 @@ export default {
       this._autoScale()
     }
     if (inline) {
-      this._entryBtn.hide()
       this._$el.addClass('eruda-inline')
       this.show()
     }
@@ -87,8 +83,6 @@ export default {
   Settings,
   get(name) {
     if (!this._checkInit()) return
-
-    if (name === 'entryBtn') return this._entryBtn
 
     const devTools = this._devTools
 
@@ -127,8 +121,6 @@ export default {
   destroy() {
     this._devTools.destroy()
     delete this._devTools
-    this._entryBtn.destroy()
-    delete this._entryBtn
     this._unregisterListener()
     $(this._container).remove()
     evalCss.clear()
@@ -144,16 +136,6 @@ export default {
     }
 
     return this._scale
-  },
-  position(p) {
-    const entryBtn = this._entryBtn
-
-    if (isObj(p)) {
-      entryBtn.setPos(p)
-      return this
-    }
-
-    return entryBtn.getPos()
   },
   _autoScale() {
     if (!isMobile()) return
@@ -263,8 +245,6 @@ export default {
     )
   },
   _initEntryBtn() {
-    this._entryBtn = new EntryBtn(this._$el)
-    this._entryBtn.on('click', () => this._devTools.toggle())
   },
   _initSettings() {
     const devTools = this._devTools
@@ -272,7 +252,6 @@ export default {
 
     devTools.add(settings)
 
-    this._entryBtn.initCfg(settings)
     devTools.initCfg(settings)
   },
   _initTools(

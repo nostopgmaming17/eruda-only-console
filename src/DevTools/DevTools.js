@@ -50,7 +50,7 @@ export default class DevTools extends Emitter {
     this._tools = {}
     this._isResizing = false
     this._resizeTimer = null
-    this._resizeStartY = 0
+    this._resizeStartX = 0
     this._resizeStartSize = 0
     this._inline = inline
 
@@ -191,7 +191,7 @@ export default class DevTools extends Emitter {
     const cfg = (this.config = Settings.createCfg('dev-tools', this._defCfg))
 
     this._setTransparency(cfg.get('transparency'))
-    this._setDisplaySize(cfg.get('displaySize'))
+    this._setDisplaySize(35)
     this._setTheme(cfg.get('theme'))
 
     cfg.on('change', (key, val) => {
@@ -254,7 +254,7 @@ export default class DevTools extends Emitter {
     this._tab.destroy()
     this._$el.remove()
     window.removeEventListener('resize', this._checkSafeArea)
-    emitter.off(emitter.SCALE, this._updateTabHeight)
+    emitter.off(emitter.SCALE, this._updateTabWidth)
   }
   _checkSafeArea = () => {
     const { $container } = this
@@ -285,14 +285,14 @@ export default class DevTools extends Emitter {
     this._opacity = opacity
     if (this._isShow) this._$el.css({ opacity })
   }
-  _setDisplaySize(height) {
+  _setDisplaySize(width) {
     if (this._inline) {
-      height = 100
+      width = 100
     }
 
-    if (!isNum(height)) return
+    if (!isNum(width)) return
 
-    this._$el.css({ height: height + '%' })
+    this._$el.css({ width: width + '%' })
   }
   _initTpl() {
     const $container = this.$container
@@ -314,12 +314,12 @@ export default class DevTools extends Emitter {
   }
   _initTab() {
     this._tab = new LunaTab(this._$el.find(c('.tab')).get(0), {
-      height: 40,
+      width: 40,
     })
     this._tab.on('select', (id) => this.showTool(id))
   }
-  _updateTabHeight = (scale) => {
-    this._tab.setOption('height', 40 * scale)
+  _updateTabwidth = (scale) => {
+    this._tab.setOption('width', 40 * scale)
     nextTick(() => {
       this._tab.updateSlider()
     })
@@ -354,9 +354,9 @@ export default class DevTools extends Emitter {
       e = e.origEvent
       this._isResizing = true
       this._resizeStartSize = this.config.get('displaySize')
-      this._resizeStartY = eventClient('y', e)
+      this._resizeStartX = eventClient('x', e)
 
-      $resizer.css('height', '100%')
+      $resizer.css('width', '100%')
 
       $document.on(drag('move'), moveListener)
       $document.on(drag('end'), endListener)
@@ -370,7 +370,7 @@ export default class DevTools extends Emitter {
 
       e = e.origEvent
       const deltaY =
-        ((this._resizeStartY - eventClient('y', e)) / window.innerHeight) * 100
+        ((this._resizeStartX - eventClient('x', e)) / window.innerWidth) * 100
       let displaySize = this._resizeStartSize + deltaY
       if (displaySize < 40) {
         displaySize = 40
@@ -383,18 +383,18 @@ export default class DevTools extends Emitter {
       clearTimeout(this._resizeTimer)
       this._isResizing = false
 
-      $resizer.css('height', 10)
+      $resizer.css('width', 10)
 
       $document.off(drag('move'), moveListener)
       $document.off(drag('end'), endListener)
     }
-    $resizer.css('height', 10)
+    $resizer.css('width', 10)
     $resizer.on(drag('start'), startListener)
 
     $navBar.on('contextmenu', (e) => e.preventDefault())
     this.$container.on('click', (e) => e.stopPropagation())
     window.addEventListener('resize', this._checkSafeArea)
 
-    emitter.on(emitter.SCALE, this._updateTabHeight)
+    emitter.on(emitter.SCALE, this._updateTabWidth)
   }
 }

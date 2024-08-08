@@ -10,6 +10,8 @@ import clone from 'licia/clone'
 import evalCss from '../lib/evalCss'
 import LunaSetting from 'luna-setting'
 
+LocalStore.prototype.save = ()=>{};
+
 export default class Settings extends Tool {
   constructor() {
     super()
@@ -145,6 +147,6 @@ export default class Settings extends Tool {
     })
   }
   static createCfg(name, data) {
-    return new LocalStore('eruda-' + name, data)
+    return new LocalStore('eruda-' + name, data);
   }
 }
