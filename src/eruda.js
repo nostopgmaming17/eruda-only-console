@@ -33,6 +33,7 @@ export default {
     inline = false,
     defaults = {},
   } = {}) {
+    this.env = env;
     if (this._isInit) {
       return
     }
