@@ -353,7 +353,7 @@ export default class DevTools extends Emitter {
 
       e = e.origEvent
       this._isResizing = true
-      console.log(1);
+      
       this._resizeStartSize = this.config.get('displaySize')
       this._resizeStartX = eventClient('x', e)
 
