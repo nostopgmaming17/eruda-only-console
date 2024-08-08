@@ -272,7 +272,7 @@ export default class Console extends Tool {
       .on('click', c('.execute'), () => {
         const jsInput = $input.val().trim()
         if (jsInput === '') return
-        console.log(logger);
+        
         logger.evaluate(jsInput)
         $input.val('').get(0).blur()
         this._hideInput()
