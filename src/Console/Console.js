@@ -21,14 +21,15 @@ import { classPrefix as c } from '../lib/util'
 
 import { env } from '../eruda'
 
+const execargs = "{game, PIXI, gameState}";
 LunaConsole.prototype.evalJs = function(jsInput) {
   let ret;
   this.injectGlobal();
   try {
-    ret = Function('{game, PIXI}',`(${jsInput})`).call(window,env||{});
+    ret = Function(execargs,`(${jsInput})`).call(window,env||{});
   }
   catch (e) {
-    ret = Function('{game, PIXI}',jsInput).call(window,env||{});
+    ret = Function(execargs,jsInput).call(window,env||{});
   }
   this.setGlobal('$_', ret);
   this.clearGlobal();
