@@ -220,8 +220,8 @@ export default class DevTools extends Emitter {
           step: 0.01,
         })
         .range(cfg, 'displaySize', 'Display Size', {
-          min: 40,
-          max: 100,
+          min: 20,
+          max: 70,
           step: 1,
         })
     }
@@ -314,12 +314,12 @@ export default class DevTools extends Emitter {
   }
   _initTab() {
     this._tab = new LunaTab(this._$el.find(c('.tab')).get(0), {
-      width: 40,
+      width: 20,
     })
     this._tab.on('select', (id) => this.showTool(id))
   }
   _updateTabwidth = (scale) => {
-    this._tab.setOption('width', 40 * scale)
+    this._tab.setOption('width', 20 * scale)
     nextTick(() => {
       this._tab.updateSlider()
     })
@@ -353,6 +353,7 @@ export default class DevTools extends Emitter {
 
       e = e.origEvent
       this._isResizing = true
+      console.log(1);
       this._resizeStartSize = this.config.get('displaySize')
       this._resizeStartX = eventClient('x', e)
 
@@ -372,8 +373,8 @@ export default class DevTools extends Emitter {
       const deltaY =
         ((this._resizeStartX - eventClient('x', e)) / window.innerWidth) * 100
       let displaySize = this._resizeStartSize + deltaY
-      if (displaySize < 40) {
-        displaySize = 40
+      if (displaySize < 20) {
+        displaySize = 20
       } else if (displaySize > 100) {
         displaySize = 100
       }
