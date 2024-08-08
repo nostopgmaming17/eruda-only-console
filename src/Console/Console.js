@@ -179,7 +179,7 @@ export default class Console extends Tool {
     )
     const _$inputContainer = $el.find(c('.js-input'))
     const _$input = _$inputContainer.find('textarea')
-    _$input.addEventListener('keydown', (e) => {
+    _$input[0].addEventListener("keydown", (e) => {
       e.preventDefault();
       e.stopPropagation();
     }, {capture: true});
@@ -236,7 +236,6 @@ export default class Console extends Tool {
         (this[name] = (...args) => {
           logger[name](...args)
           this.emit(name, ...args)
-
           return this
         })
     )
