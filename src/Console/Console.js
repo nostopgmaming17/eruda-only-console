@@ -19,6 +19,22 @@ import LunaConsole from 'luna-console'
 import LunaModal from 'luna-modal'
 import { classPrefix as c } from '../lib/util'
 
+import { env } from '../eruda'
+
+LunaConsole.prototype.evalJs = function(jsInput) {
+  let ret;
+  this.injectGlobal();
+  try {
+    ret = Function('{game, PIXI}',`(${jsInput})`).call(window,env||{});
+  }
+  catch (e) {
+    ret = Function('{game, PIXI}',jsInput).call(window,env||{});
+  }
+  this.setGlobal('$_', ret);
+  this.clearGlobal();
+  return ret;
+}
+
 uncaught.start()
 
 export default class Console extends Tool {
@@ -256,7 +272,7 @@ export default class Console extends Tool {
       .on('click', c('.execute'), () => {
         const jsInput = $input.val().trim()
         if (jsInput === '') return
-
+        console.log(logger);
         logger.evaluate(jsInput)
         $input.val('').get(0).blur()
         this._hideInput()

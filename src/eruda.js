@@ -22,6 +22,8 @@ import extend from 'licia/extend'
 import evalCss from './lib/evalCss'
 import chobitsu from './lib/chobitsu'
 
+export const env = {};
+
 export default {
   init({
     container,
