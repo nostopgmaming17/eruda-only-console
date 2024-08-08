@@ -36,7 +36,7 @@ export default class DevTools extends Emitter {
     this._defCfg = extend(
       {
         transparency: 1,
-        displaySize: 80,
+        displaySize: 35,
         theme: 'System preference',
       },
       defaults
