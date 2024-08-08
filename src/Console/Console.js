@@ -177,9 +177,12 @@ export default class Console extends Tool {
       </div>
     `)
     )
-
     const _$inputContainer = $el.find(c('.js-input'))
     const _$input = _$inputContainer.find('textarea')
+    _$input.addEventListener('keydown', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    }, {capture: true});
     const _$inputBtns = _$inputContainer.find(c('.buttons'))
 
     extend(this, {
@@ -272,7 +275,7 @@ export default class Console extends Tool {
       .on('click', c('.execute'), () => {
         const jsInput = $input.val().trim()
         if (jsInput === '') return
-        
+
         logger.evaluate(jsInput)
         $input.val('').get(0).blur()
         this._hideInput()
