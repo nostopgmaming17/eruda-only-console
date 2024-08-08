@@ -2,12 +2,6 @@ import EntryBtn from './EntryBtn/EntryBtn'
 import DevTools from './DevTools/DevTools'
 import Tool from './DevTools/Tool'
 import Console from './Console/Console'
-import Network from './Network/Network'
-import Elements from './Elements/Elements'
-import Snippets from './Snippets/Snippets'
-import Resources from './Resources/Resources'
-import Info from './Info/Info'
-import Sources from './Sources/Sources'
 import Settings from './Settings/Settings'
 import emitter from './lib/emitter'
 import logger from './lib/logger'
@@ -90,12 +84,6 @@ export default {
   chobitsu,
   Tool,
   Console,
-  Elements,
-  Network,
-  Sources,
-  Resources,
-  Info,
-  Snippets,
   Settings,
   get(name) {
     if (!this._checkInit()) return
@@ -289,13 +277,7 @@ export default {
   },
   _initTools(
     tool = [
-      'console',
-      'elements',
-      'network',
-      'resources',
-      'sources',
-      'info',
-      'snippets',
+      'console'
     ]
   ) {
     tool = toArr(tool)
